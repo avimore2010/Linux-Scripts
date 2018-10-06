@@ -1,0 +1,39 @@
+#!/bin/bash
+Filename=$1
+#todays date in year month day format"`
+dt=$(date +%Y-%m-%d)
+cat /dev/null  > ExpDomain.csv
+echo "DomainName Exp_Date" > ExpDomain.csv
+#read file line by line
+ct=10
+cat $Filename |while read line;
+do
+        if [ $ct -eq 10 ]; then
+                ct=`expr $ct + 10`
+                continue;
+        fi
+        echo "today date: $dt"
+        #echo "line: $line"
+        #split line by spaace
+        arrIN=(${line// / })
+        #store the 3rd collum value in variable
+        arr=${arrIN[2]}
+        #split the date and time
+        edt=(${arr//'T'/ })
+        echo "file  date: $edt"
+        #calucalte the sec
+        D1=$(date -d "$dt" '+%s')
+        #D1=$(date --date="15 days" '+%s')
+        D2=$(date -d "$edt" '+%s')
+        #echo "D1: $D1 D2:$D2"
+        const=86400
+        dif=`expr $D2 - $D1 `
+        #calculate the day diffence
+        total_dif=$((dif/const))
+        echo "diff: $total_dif"
+        if [ $total_dif -lt 16 ]; then
+                echo -e "${arrIN[0]} ${arr//'T'/ }" >> ExpDomain.csv;
+                #echo $line >> ExpDomain.csv
+        fi
+             
+ done
