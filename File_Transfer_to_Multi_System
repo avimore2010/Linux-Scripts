@@ -1,0 +1,14 @@
+#!/bin/sh
+echo "echo amore" > /tmp/12
+chmod 777 /tmp/12
+export SSH_ASKPASS="/tmp/12"
+export DISPLAY=File_Transfer
+
+SourceFileLocation=/home/amore/Desktop/blacklistcheck.sh
+DestinationLocation=/home/
+User=amore
+for ((i=59; i<61; i++))
+do
+        #setsid  ssh root@10.50.2.${1} systemctl reboot
+        setsid scp $SourceFileLocation ${User}@10.50.2.$i:$DestinationLocation${User}
+done
