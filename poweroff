@@ -1,0 +1,11 @@
+#!/bin/bash
+echo "echo ssgcorp" > /tmp/list
+chmod 777 /tmp/list
+export SSH_ASKPASS="/tmp/list"
+export DISPLAY=systemctl poweroff
+#Change the loop logic according to requirement
+for ((i=59; i<61; i++))
+
+do
+      setsid  ssh root@10.50.2.${i} systemctl poweroff
+done
